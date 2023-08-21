@@ -2,7 +2,7 @@
 """ This module contains a class named Server. """
 import csv
 import math
-from typing import List
+from typing import List, Dict, Tuple
 
 
 def index_range(page: int, page_size: int, **kwargs: Dict[str, int]) -> Tuple:
