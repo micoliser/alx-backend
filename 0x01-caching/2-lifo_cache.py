@@ -17,11 +17,11 @@ class LIFOCache(BaseCaching):
 
         if key and item:
             self.cache_data[key] = item
-            self.cache_queue.append(key)
             if len(self.cache_data) > self.MAX_ITEMS:
                 discard = self.cache_queue.pop()
                 del self.cache_data[discard]
                 print("DISCARD: {}".format(discard))
+            self.cache_queue.append(key)
 
     def get(self, key):
         """ Retrieves the item associated with key """
