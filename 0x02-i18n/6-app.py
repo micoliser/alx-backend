@@ -17,6 +17,7 @@ app.config.from_object(Config)
 babel = Babel(app)
 
 
+@babel.localeselector
 def get_locale():
     """ get locale from request """
     lang = request.args.get('locale')
@@ -28,8 +29,6 @@ def get_locale():
             return lang
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
-
-babel.init_app(app, locale_selector=get_locale)
 
 users = {
     1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
@@ -58,14 +57,15 @@ def before_request():
 def index():
     """ index.html """
     if g.user:
-        p_text = gettext('logged_in_as', username=g.user.get('name'))
+        logged_in = True
+        username = g.user.get('name')
     else:
-        p_text = gettext('not_logged_in')
+        logged_in = False
+        username = None
 
     return render_template('5-index.html',
-                           title=gettext('home_title'),
-                           body=gettext('home_header'),
-                           p_text=p_text)
+                           logged_in=logged_in,
+                           username=username)
 
 
 if __name__ == "__main__":
